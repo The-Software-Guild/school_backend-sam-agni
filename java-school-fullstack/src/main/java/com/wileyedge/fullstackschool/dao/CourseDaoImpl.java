@@ -23,9 +23,11 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public Course createNewCourse(Course course) {
         //YOUR CODE STARTS HERE
+    	String sql = "INSERT INTO course (cid, courseCode, courseDesc, teacherId) VALUES (?,?,?,?)";
+    	jdbcTemplate.update(sql, course.getCourseId(), course.getCourseName(), course.getCourseDesc(),
+    			course.getTeacherId());
 
-
-        return null;
+        return course;
 
         //YOUR CODE ENDS HERE
     }
@@ -33,8 +35,10 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public List<Course> getAllCourses() {
         //YOUR CODE STARTS HERE
+    	String sql = "SELECT * FROM course";
+    	List<Course> result = jdbcTemplate.query(sql, new CourseMapper());
 
-        return null;
+        return result;
 
         //YOUR CODE ENDS HERE
     }
@@ -42,8 +46,10 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public Course findCourseById(int id) {
         //YOUR CODE STARTS HERE
+    	String sql = "SELECT * FROM course WHERE cid=?";
+    	Course result = jdbcTemplate.queryForObject(sql, new CourseMapper(), id);
 
-        return null;
+        return result;
 
         //YOUR CODE ENDS HERE
     }
@@ -51,8 +57,9 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public void updateCourse(Course course) {
         //YOUR CODE STARTS HERE
-
-
+    	String sql = "UPDATE course SET courseCode=?, courseDesc=?, teacherId=? WHERE cid=?";
+    	jdbcTemplate.update(sql, course.getCourseName(), course.getCourseDesc(), course.getTeacherId(),
+    			course.getCourseId());
 
         //YOUR CODE ENDS HERE
     }
@@ -60,7 +67,8 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public void deleteCourse(int id) {
         //YOUR CODE STARTS HERE
-
+    	String sql = "DELETE FROM course WHERE cid=?";
+    	jdbcTemplate.update(sql, id);
 
 
         //YOUR CODE ENDS HERE
@@ -69,7 +77,8 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public void deleteAllStudentsFromCourse(int courseId) {
         //YOUR CODE STARTS HERE
-
+    	String sql = "DELETE FROM course_student WHERE course_id=?";
+    	jdbcTemplate.update(sql, courseId);
 
 
         //YOUR CODE ENDS HERE
